@@ -46,7 +46,7 @@ def screen(only_show_after=False):
 
 def navTo(url=''):
 	try:
-		url2=url_prefix + url
+		url2=url_prefix + url if not url.startswith('http') else url
 		browser().get(url2)
 		#TODO:check we got there!
 		browser().execute_script("""
@@ -138,4 +138,4 @@ def write(*find_args,**find_kwargs):
 	screen(True)
 	return el 
 
-set_url_pfx(os.getenv('TEST_URL_PFX','http://mk_user:Esb7JNHMc12aBWI@localhost:10087/'))
+set_url_pfx(os.getenv('TEST_URL_PFX',''))

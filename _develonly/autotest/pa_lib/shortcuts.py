@@ -10,16 +10,18 @@ from selenium.common.exceptions import *
 
 browser= None
 
-def _locators(what, by="sel id name aria value text"):
+def _locators(what, by="sel id name aria placeholder value text textcontains"):
 	return list([ ( 
-			By.XPATH if how=='text' else By.CSS_SELECTOR, 
+			By.XPATH if how in ['text','textcontains'] else By.CSS_SELECTOR, 
 			( 
 				what if how=='sel' else
 				f'#{what}' if how=='id' else
 				f'[name="{what}"]' if how=='name' else
 				f'[aria-label="{what}"]' if how=='aria' else
+				f'[placeholder="{what}"]' if how=='placeholder' else
 				f'[value="{what}"]' if how=='value' else
-				f".//*[text()='{what}']"	
+				f".//*[not (self::script) and text()='{what}']" if how=='text' else
+				f".//*[not (self::script) and contains(text(),'{what}')]"
 			)
 		) #A: a tuple for selenium
 		for how in by.split(' ')
@@ -29,13 +31,14 @@ def _find_attempt(locators,parent):
 	#DBG: print("parent:",parent)
 	for l in locators:
 		try:
+			#DBG: print(l)	
 			el= parent.find_element(*l)	
 			if el:
 				return el
 		except:
 			pass
 
-def find(what, parent=None, by="sel id name aria value text", wait_s=10, path=None):
+def find(what, parent=None, by="sel id name aria placeholder value text textcontains", wait_s=10, path=None):
 	"""find an element"""
 	el= None #DFLT
 	if type(what)!=str:	 #A: is element
