@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+#INFO: list installed php packages
+
+dpkg -l php* | perl -ne '/^ii\s+php(\d+\.\d+)-(\S+)/ && print("$2:$1\n")'

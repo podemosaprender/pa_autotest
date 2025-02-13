@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+
+#INFO: install latest
+
+pip install pytest pytest-html 
+pip install chromedriver-autoinstaller pyvirtualdisplay
+pip install requests beautifulsoup4 pandas selenium
+echo "READY!"

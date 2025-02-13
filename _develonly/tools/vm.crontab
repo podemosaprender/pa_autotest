@@ -1,0 +1,1 @@
+* * * * * /usr/bin/bash -c "if ! mount | grep -q host ; then ~/bin/pa_mount_shared_folder.sh ; fi"

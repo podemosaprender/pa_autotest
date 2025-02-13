@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+
+V_ORI=${1:-7.4}
+V_TARGET=${1:-8.2}
+
+MYDIR=`dirname $0`
+rm /tmp/php-pkg-*
+for i in `$MYDIR/vm_php_dpkg`; do
+	v=${i##*:}
+	p=${i%%:*}
+	echo "$p" >> /tmp/php-pkg-$v
+done
+
+comm -23 /tmp/php-pkg-$V_ORI /tmp/php-pkg-$V_TARGET
